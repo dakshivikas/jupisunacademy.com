@@ -1,0 +1,225 @@
+# JupiSun Academy — Complete Hosting Guide
+# jupisunacademy.com on GitHub Pages (Free)
+
+---
+
+## FILES IN THIS FOLDER
+
+| File | Purpose |
+|------|---------|
+| index.html | Homepage — jupisunacademy.com |
+| pm-os.html | PM OS — jupisunacademy.com/pm-os |
+| favicon.svg | Browser tab icon |
+
+---
+
+## STEP 1 — CREATE GITHUB ACCOUNT & REPO (5 minutes)
+
+1. Go to github.com → Sign up (free) or log in
+2. Click the green **New** button (top left)
+3. Repository name: **jupisunacademy.com** (exactly this)
+4. Set to **Public**
+5. Click **Create repository**
+
+---
+
+## STEP 2 — UPLOAD YOUR FILES (3 minutes)
+
+1. Inside your new repo, click **Add file → Upload files**
+2. Drag and drop ALL three files:
+   - index.html
+   - pm-os.html
+   - favicon.svg
+3. Scroll down → click **Commit changes**
+
+---
+
+## STEP 3 — ENABLE GITHUB PAGES (2 minutes)
+
+1. In your repo, click **Settings** (top menu)
+2. Scroll down to **Pages** (left sidebar)
+3. Under **Source** → select **Deploy from a branch**
+4. Branch: **main** | Folder: **/ (root)**
+5. Click **Save**
+
+GitHub will now publish your site at:
+**https://yourusername.github.io/jupisunacademy.com**
+
+Wait 2–3 minutes, then visit that URL to confirm it works.
+
+---
+
+## STEP 4 — CONNECT YOUR CUSTOM DOMAIN (10 minutes)
+
+### A. Tell GitHub your domain
+
+1. In Settings → Pages → **Custom domain**
+2. Type: **jupisunacademy.com**
+3. Click **Save**
+4. Tick **Enforce HTTPS** (may take a few hours to activate)
+
+### B. Update your DNS at your domain registrar
+
+Log in to wherever you bought jupisunacademy.com (GoDaddy / Namecheap / Google Domains / etc.)
+
+Go to **DNS Settings** and add these records:
+
+**4 A Records** (point @ to GitHub's IPs):
+```
+Type: A    Host: @    Value: 185.199.108.153    TTL: 3600
+Type: A    Host: @    Value: 185.199.109.153    TTL: 3600
+Type: A    Host: @    Value: 185.199.110.153    TTL: 3600
+Type: A    Host: @    Value: 185.199.111.153    TTL: 3600
+```
+
+**1 CNAME Record** (for www):
+```
+Type: CNAME    Host: www    Value: yourusername.github.io    TTL: 3600
+```
+
+Replace **yourusername** with your actual GitHub username.
+
+### C. Wait
+
+DNS changes take 15 minutes to 48 hours to fully propagate.
+Once done, **jupisunacademy.com** will load your site with HTTPS.
+
+---
+
+## STEP 5 — SET UP FREE NEWSLETTER (15 minutes)
+
+Use **Brevo** (formerly Sendinblue) — free up to 300 emails/day, 9,000/month.
+
+### A. Create Brevo account
+
+1. Go to brevo.com → Sign up free
+2. Verify your email
+
+### B. Create a subscription form
+
+1. In Brevo dashboard → **Contacts → Forms**
+2. Click **Create a subscription form**
+3. Name it: "AI PM Weekly"
+4. Add field: Email (required)
+5. Set double opt-in: YES (required for GDPR)
+6. Click **Save & get code**
+
+### C. Create your mailing list
+
+1. Contacts → Lists → **Create a list**
+2. Name: "AI PM Weekly Subscribers"
+
+### D. Wire up the newsletter form
+
+Brevo gives you a form embed code or a form action URL.
+
+**Option A — Brevo Hosted Form (easiest)**
+Replace the newsletter section in index.html with a link to your Brevo-hosted form:
+```html
+<a href="YOUR_BREVO_FORM_URL" class="btn-primary">Subscribe to AI PM Weekly →</a>
+```
+
+**Option B — Custom form with Brevo API**
+1. In Brevo → My Account → SMTP & API → **API Keys**
+2. Copy your API key
+3. Replace the submitNewsletter function in index.html with:
+
+```javascript
+async function submitNewsletter(e) {
+  e.preventDefault();
+  const email = document.getElementById('nlEmail').value;
+  
+  const response = await fetch('https://api.brevo.com/v3/contacts', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': 'YOUR_BREVO_API_KEY'  // ← paste your key here
+    },
+    body: JSON.stringify({
+      email: email,
+      listIds: [YOUR_LIST_ID],  // ← your Brevo list ID number
+      updateEnabled: true
+    })
+  });
+  
+  if (response.ok || response.status === 204) {
+    document.getElementById('nlForm').style.display = 'none';
+    document.getElementById('nlSuccess').style.display = 'block';
+  }
+}
+```
+
+### E. Send your first newsletter campaign
+
+1. Brevo → Campaigns → **Create a campaign**
+2. Type: Email campaign
+3. From: vikas@jupisunacademy.com
+4. Subject: "Your first AI PM Weekly — the PRD prompt"
+5. Design your email → **Send to AI PM Weekly list**
+
+---
+
+## STEP 6 — UPDATE COURSE LINKS (5 minutes)
+
+In index.html, find the two course cards and replace the Udemy links:
+
+```html
+<!-- Course 1 -->
+<a href="https://www.udemy.com/course/YOUR-COURSE-1-URL" target="_blank" class="btn-udemy">
+
+<!-- Course 2 -->
+<a href="https://www.udemy.com/course/YOUR-COURSE-2-URL" target="_blank" class="btn-udemy">
+```
+
+After you publish each course on Udemy, copy the course URL and paste it here.
+
+---
+
+## STEP 7 — UPDATE SITE AFTER CHANGES
+
+Whenever you edit any HTML file:
+
+1. Go to your GitHub repo
+2. Click the file you want to update
+3. Click the **pencil icon** (Edit)
+4. Make your changes
+5. Click **Commit changes**
+
+GitHub Pages auto-deploys within 1–2 minutes.
+
+---
+
+## TOTAL COST BREAKDOWN
+
+| Item | Cost |
+|------|------|
+| GitHub Pages hosting | FREE |
+| Brevo newsletter (up to 9k emails/month) | FREE |
+| HTTPS certificate | FREE (GitHub provides) |
+| Domain (jupisunacademy.com) | ~₹800–1200/year (already purchased) |
+| **Total monthly cost** | **₹0** |
+
+---
+
+## QUICK LINKS ONCE LIVE
+
+- Site: https://jupisunacademy.com
+- PM OS: https://jupisunacademy.com/pm-os
+- GitHub repo: https://github.com/YOURUSERNAME/jupisunacademy.com
+- Brevo dashboard: https://app.brevo.com
+
+---
+
+## TROUBLESHOOTING
+
+**Site not loading after DNS change:**
+DNS can take up to 48 hours. Check status at dnschecker.org
+
+**HTTPS not working:**
+Wait 24 hours after adding custom domain. GitHub provisions SSL automatically.
+
+**404 error on pm-os:**
+Make sure the file is named exactly pm-os.html (not pm_os.html)
+
+**Brevo emails going to spam:**
+Add SPF and DKIM records in your DNS — Brevo shows you exactly which records to add in their dashboard under Senders & Domains.
