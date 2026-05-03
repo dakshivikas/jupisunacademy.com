@@ -352,10 +352,7 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,0.06);paddin
       <p class="sec-eye" style="color:rgba(255,255,255,0.5);">Weekly Newsletter</p>
       <h2 class="sec-title">The AI PM Weekly</h2>
       <p>One email every week. One new AI workflow, prompt, or tool that saves you time as a PM. No theory. No hype. Just something you can use this week.</p>
-      <form class="nl-form" id="nlForm" onsubmit="submitNewsletter(event)">
-        <input type="email" class="nl-input" placeholder="your@email.com" required id="nlEmail">
-        <button type="submit" class="nl-btn">Subscribe →</button>
-      </form>
+      <iframe width="540" height="305" src="https://fcec3e21.sibforms.com/serve/MUIFALgcEQnXSrkBZddJKkq-xWuUudq9GssEWwPNhCDbND5Sf3zYrSAsnN8LohXiPDZrVeyYm1cN3RAUrrxTktpJF7ObneNTysbXPv6PQSZss3SrAG0SKJLcLZ9ygyXgoyusS-qN3cPVmX7hHTJj4hmu3T0t8Ea7Qh0AooSkHpAW0iW01jiLbqYW1Vs9b_0gkTjK08mf-l1NBKpJKg==" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
       <div class="nl-success" id="nlSuccess">🎉 You're in! Check your inbox for a confirmation.</div>
       <p class="nl-note">No spam. Unsubscribe anytime. Sent every Tuesday.</p>
     </div>
@@ -384,16 +381,6 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, {threshold: 0.1});
 document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
-// Newsletter form
-function submitNewsletter(e) {
-  e.preventDefault();
-  const email = document.getElementById('nlEmail').value;
-  // Replace YOUR_FORM_ID below with your Mailchimp/Brevo form endpoint
-  // For now shows success message — wire up in Step 4 of hosting guide
-  document.getElementById('nlForm').style.display = 'none';
-  document.getElementById('nlSuccess').style.display = 'block';
-}
 </script>
 </body>
 </html>
